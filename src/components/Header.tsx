@@ -1,4 +1,4 @@
-import { Package2, Menu, Search, CircleUser } from "lucide-react";
+import { Package2, Menu, Search, CircleUser, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet";
+import {
+  SheetTrigger,
+  SheetContent,
+  Sheet,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 export default function Header() {
   return (
@@ -75,8 +81,8 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className="flex items-center gap-4 md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial hidden">
+      <div className="flex items-center gap-4 md:gap-2 lg:gap-4 w-auto">
+        <form className="ml-auto flex-1 sm:flex-initial md:flex hidden">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -102,6 +108,25 @@ export default function Header() {
             <DropdownMenuItem>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="shrink-0">
+              <ShoppingCart className="h-5 w-5" />
+              <span className="sr-only">Toggle cart</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <SheetHeader>
+              <SheetTitle>Shopping cart</SheetTitle>
+            </SheetHeader>
+            <div className="h-full relative overflow-y-auto">
+              <div className="absolute left-0 right-0 bottom-10 flex items-center justify-between px-2 py-4 border-b border-t">
+                <span>SUB-TOTAL</span>
+                <span>$0</span>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
