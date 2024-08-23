@@ -9,6 +9,8 @@ export const Category: SchemaTypeDefinition = {
       name: "name",
       title: "Name",
       type: "string",
+      validation: (rule) =>
+        rule.required().error("Name of the category is required"),
     },
     {
       name: "slug",
@@ -18,6 +20,9 @@ export const Category: SchemaTypeDefinition = {
         source: "name",
         maxLength: 96,
       },
+      validation: (rule) =>
+        rule.required().warning("This field required for unique URLs"),
+      description: "The slug of the category for unique URLs",
     },
   ],
 };

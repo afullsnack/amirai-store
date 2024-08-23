@@ -19,6 +19,9 @@ export const Product: SchemaTypeDefinition = {
         source: "name",
         maxLength: 96,
       },
+      validation: (rule) =>
+        rule.required().warning("This field required for unique URLs"),
+      description: "The slug of the product for unique URLs",
     },
     {
       name: "image",
@@ -36,6 +39,17 @@ export const Product: SchemaTypeDefinition = {
       title: "Categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
+      description: "Categories the products can belong to",
+      options: { layout: "tags" },
+      validation: (rule) => rule.required().min(1),
+    },
+    {
+      name: "price",
+      title: "Price",
+      type: "number",
+      validation: (rule) =>
+        rule.required().min(1).error("Product must have a price"),
+      description: "Product price in $(dollar)",
     },
     {
       name: "description",
