@@ -13,7 +13,7 @@ export default async function CategoriesSection() {
           <h1 className="text-xl font-bold text-balance">Categories</h1>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat, _) => (
-              <Link key={cat} href={`/${cat}`}>
+              <Link key={cat} href={`/category/${cat}`}>
                 <Badge>{cat}</Badge>
               </Link>
             ))}
