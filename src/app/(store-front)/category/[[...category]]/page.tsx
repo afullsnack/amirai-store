@@ -1,7 +1,7 @@
 "use client";
 
 import { Container, Main, Section } from "@/components/craft";
-import HomePage from "@/components/HomePage";
+
 import { useParams, usePathname } from "next/navigation";
 
 export default function CategoriesPage({
@@ -9,12 +9,6 @@ export default function CategoriesPage({
 }: {
   params: { category: string };
 }) {
-  const pathname = usePathname();
-
-  if (pathname === "/") {
-    return <HomePage />;
-  }
-
   return (
     <Main>
       <Section>
