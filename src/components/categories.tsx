@@ -9,7 +9,7 @@ export default async function CategoriesSection() {
   return (
     <Main>
       <Section>
-        <Container className="">
+        <Container className="space-y-4">
           <h1 className="text-xl font-bold text-balance">Categories</h1>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat, _) => (

@@ -30,19 +30,6 @@ export default function Header() {
         </Link>
       </nav>
 
-      <div className="flex">
-        <Link
-          href="#"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
-        >
-          {/*<Package2 className="h-6 w-6" />*/}
-          <span className="text-xl font-bold text-balance text-black">
-            Amirai
-          </span>
-          <span className="sr-only">Amirai</span>
-        </Link>
-      </div>
-
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -63,35 +50,33 @@ export default function Header() {
               href="#"
               className="text-muted-foreground hover:text-foreground"
             >
-              Dashboard
+              Collections
             </Link>
             <Link
               href="#"
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground min-w-fit"
             >
-              Orders
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Products
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Customers
-            </Link>
-            <Link href="#" className="hover:text-foreground">
-              Settings
+              Best sellers
             </Link>
           </nav>
         </SheetContent>
       </Sheet>
 
+      <div className="flex">
+        <Link
+          href="#"
+          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+        >
+          {/*<Package2 className="h-6 w-6" />*/}
+          <span className="text-xl font-bold text-balance text-black">
+            Amirai
+          </span>
+          <span className="sr-only">Amirai</span>
+        </Link>
+      </div>
+
       <div className="flex items-center gap-4 md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
+        <form className="ml-auto flex-1 sm:flex-initial hidden">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
