@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function CategoriesSection() {
   // TODO: fetch all categories and render clickable badges
-  const categories = ["dresses", "skirts", "shorts"];
+  const categories = ["dresses", "skirts", "shorts", "all"];
 
   return (
     <Main>
@@ -13,7 +13,10 @@ export default async function CategoriesSection() {
           <h1 className="text-xl font-bold text-balance">Categories</h1>
           <div className="flex flex-wrap gap-2">
             {categories.map((cat, _) => (
-              <Link key={cat} href={`/category/${cat}`}>
+              <Link
+                key={cat}
+                href={cat === "all" ? "/category" : `/category/${cat}`}
+              >
                 <Badge>{cat}</Badge>
               </Link>
             ))}
