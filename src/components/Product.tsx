@@ -34,6 +34,7 @@ const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
   const item = await client.fetch(
     `*[_type == "product" && slug.current match "${slug}"][0]{
+      _id,
       "url": image.asset->url,
       "slug": slug.current,
       name,
