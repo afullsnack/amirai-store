@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Layout } from "@/components/craft";
-import SiteFooter from "@/components/Footer";
+import SiteFooter from "@/components/FooterG";
 import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
 import { Suspense } from "react";
