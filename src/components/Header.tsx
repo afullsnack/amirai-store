@@ -57,7 +57,7 @@ export default function Header() {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <span className="sr-only">Amirai</span>
             </Link>
             <Link
               href="#"
@@ -77,7 +77,7 @@ export default function Header() {
 
       <div className="flex">
         <Link
-          href="#"
+          href="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
           {/*<Package2 className="h-6 w-6" />*/}
