@@ -10,7 +10,7 @@ export const ProductCard: React.FC<{
 }> = ({ imageUrl, name, price }) => {
   return (
     <Card>
-      <CardContent>
+      <CardContent className="!p-0">
         <div className="relative min-h-56">
           <Image
             src={imageUrl}
@@ -18,13 +18,13 @@ export const ProductCard: React.FC<{
             fill
             objectFit="contain"
             objectPosition="center"
-            className="object-contain"
+            className="object-contain w-full"
           />
         </div>
       </CardContent>
       <CardFooter className="grid items-start place-items-start">
         <span className="text-lg font-normal">{name ?? "Product name"}</span>
-        <span className="text-lg font-light">{price}</span>
+        <span className="text-lg font-light">${price}</span>
       </CardFooter>
     </Card>
   );

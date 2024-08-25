@@ -44,6 +44,15 @@ export const Product: SchemaTypeDefinition = {
       validation: (rule) => rule.required().min(1),
     },
     {
+      name: "sizes",
+      title: "Sizes",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "the different sizes for the dress",
+      options: { layout: "tags" },
+      // validation: (rule) => rule.required().min(1),
+    },
+    {
       name: "price",
       title: "Price",
       type: "number",

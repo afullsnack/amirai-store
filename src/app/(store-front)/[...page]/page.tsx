@@ -1,18 +1,26 @@
 "use client";
 
+import { CategoryHandler } from "@/components/CategoryHandler";
 import { Container, Main, Section } from "@/components/craft";
-import { ProductCard } from "@/components/ProductCard";
+
+import { Skeleton } from "@/components/ui/skeleton";
+import { client } from "@/sanity/lib/client";
 import { Filter } from "lucide-react";
 import Link from "next/link";
 
 import { useParams, usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 export default function CategoriesPage({
   params,
 }: {
   params: { page: string | string[] };
 }) {
-  if (params?.page.includes("category")) {
+  const [page, sub] = params?.page;
+
+  console.log(page, sub, ":::sub lists");
+
+  if (page.includes("category")) {
     return (
       <Main>
         <Section>
@@ -23,14 +31,9 @@ export default function CategoriesPage({
             </div>
           </Container>
           <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Link key={index} href={`/product/${index}`}>
-                <ProductCard
-                  price={120}
-                  imageUrl="http://localhost:3000/logo.svg"
-                />
-              </Link>
-            ))}
+            <Suspense fallback={<Skeleton className="min-w-9 min-h-64" />}>
+              <CategoryHandler filter={sub} />
+            </Suspense>
           </Container>
         </Section>
       </Main>

@@ -28,23 +28,43 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { client } from "@/sanity/lib/client";
+
+const getSingleProduct = async (slug: string) => {
+  console.log(slug, ":::Slug");
+  const item = await client.fetch(
+    `*[_type == "product" && slug.current match "${slug}"][0]{
+      "url": image.asset->url,
+      "slug": slug.current,
+      name,
+      price,
+      description,
+      sizes,
+      "categories": categories[]->{name, slug}
+    }
+    `,
+  );
+
+  console.log(item, ":::single item");
+  return item;
+};
 
 export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
   // TODO: fetch product details based on slug
 
-  await new Promise((resolve: any) => setTimeout(resolve, 1000));
+  const item = await getSingleProduct(slug);
 
   return (
     <>
       <Container className="grid gap-3">
         <MainImage
-          url={"http://localhost:3000/logo.svg"}
+          url={item?.url ?? "http://localhost:3000/logo.svg"}
           alt="Main product image"
           ratio={3 / 4}
           className="rounded-lg"
         />
 
-        <div>
+        {/*<div>
           <Carousel
             opts={{
               align: "start",
@@ -73,11 +93,11 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </div>
+        </div>*/}
       </Container>
 
       <Container className="w-full place-content-start justify-items-start grid items-start justify-start">
-        <ProductControls currentProd={slug} />
+        <ProductControls {...item} />
       </Container>
 
       <Container className="w-full md:col-span-2">
@@ -85,21 +105,21 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
           <AccordionItem value="item-1">
             <AccordionTrigger>Description</AccordionTrigger>
             <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
+              {item?.description ?? "Descritpion"}
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger>Additional information</AccordionTrigger>
             <AccordionContent>
-              Yes. It comes with default styles that matches the other
-              components&apos; aesthetic.
+              <ul>
+                <li>Sizes: {item?.sizes?.join(", ")}</li>
+              </ul>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger>Shipping and returns</AccordionTrigger>
             <AccordionContent>
-              Yes. It&apos;s animated by default, but you can disable it if you
-              prefer.
+              See our shipping and returns policy
             </AccordionContent>
           </AccordionItem>
         </Accordion>
@@ -108,8 +128,12 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
   );
 };
 
-const ProductControls: React.FC<{ currentProd: string }> = ({
-  currentProd,
+const ProductControls: React.FC<{ [field: string]: any }> = ({
+  name,
+  price,
+  sizes,
+  description,
+  categories,
 }) => {
   return (
     <Container className="flex flex-col items-start justify-start gap-4">
@@ -120,24 +144,30 @@ const ProductControls: React.FC<{ currentProd: string }> = ({
           </BreadcrumbItem>
           <BreadcrumbSeparator>{"/"}</BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/category">
-              Category/collection Name
+            <BreadcrumbLink href="/category">Category</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>{"/"}</BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/category/${categories[0]?.name}`}>
+              {categories[0]?.name}
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>{"/"}</BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbPage>
-              <b>{currentProd}</b>
+              <b>{name}</b>
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="text-2xl font-semibold">{currentProd}</h1>
+      <h1 className="text-2xl font-semibold">{name}</h1>
       <h3 className="text-xl font-semibold md:text-3xl md:font-normal">
-        <small>Price:</small> <br />
-        $300
+        <small>Price:</small> <br />${price ?? "300"}
       </h3>
-      <SizeForm sizes={["small", "medium", "large"]} defaultSelect="small" />
+      <SizeForm
+        sizes={sizes ?? ["small", "medium", "large"]}
+        defaultSelect={sizes[0] ?? "small"}
+      />
 
       <Link
         href={"/#size-guide"}

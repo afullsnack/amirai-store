@@ -5,6 +5,8 @@ import { Layout } from "@/components/craft";
 import SiteFooter from "@/components/Footer";
 import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +32,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Header />
         {children}
-        <CategoriesSection />
+        <Suspense fallback={<Skeleton className="min-w-8 h-3 rounded-sm" />}>
+          <CategoriesSection />
+        </Suspense>
         <SiteFooter />
       </body>
     </Layout>
