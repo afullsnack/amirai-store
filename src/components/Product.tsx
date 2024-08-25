@@ -41,7 +41,7 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
           url={"http://localhost:3000/logo.svg"}
           alt="Main product image"
           ratio={3 / 4}
-          className="border border-red-300 rounded-lg"
+          className="rounded-lg"
         />
 
         <div>
