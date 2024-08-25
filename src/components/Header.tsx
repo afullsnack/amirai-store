@@ -1,4 +1,11 @@
-import { Package2, Menu, Search, CircleUser, ShoppingCart } from "lucide-react";
+import {
+  Package2,
+  Menu,
+  Search,
+  CircleUser,
+  ShoppingCart,
+  SearchX,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -26,7 +33,7 @@ export default function Header() {
           href="#"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
-          Collections
+          Dresses
         </Link>
         <Link
           href="#"
@@ -56,7 +63,7 @@ export default function Header() {
               href="#"
               className="text-muted-foreground hover:text-foreground"
             >
-              Collections
+              Dresses
             </Link>
             <Link
               href="#"
@@ -92,6 +99,7 @@ export default function Header() {
             />
           </div>
         </form>
+        <Search className="h-5 w-5 flex md:hidden" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
@@ -110,8 +118,9 @@ export default function Header() {
         </DropdownMenu>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0">
+            <Button variant="outline" className="shrink-0 gap-2">
               <ShoppingCart className="h-5 w-5" />
+              <span>$0.00</span>
               <span className="sr-only">Toggle cart</span>
             </Button>
           </SheetTrigger>
