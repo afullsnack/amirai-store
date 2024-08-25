@@ -21,7 +21,7 @@ export default function ProductPage({
       <Section className="grid grid-cols-1 md:grid-cols-2">
         <Suspense
           fallback={
-            <Container className="flex items-center gap-4 w-full">
+            <Container className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
               <Skeleton className="min-w-[250px] min-h-32 rounded-md" />
               <div className="flex flex-col gap-3 min-w-[250px] min-h-32">
                 <Skeleton className="w-full h-10 rounded-sm" />
