@@ -18,18 +18,22 @@ export default function ProductPage({
   return (
     <Main>
       {/*Handle product details*/}
-      <Section className="grid grid-cols-1 md:grid-cols-2">
+      <Section className="grid grid-cols-1 md:grid-cols-2 place-items-center">
         <Suspense
           fallback={
-            <Container className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <Skeleton className="min-w-[250px] min-h-32 rounded-md" />
-              <div className="flex flex-col gap-3 min-w-[250px] min-h-32">
-                <Skeleton className="w-full h-10 rounded-sm" />
-                <Skeleton className="w-full h-10 rounded-sm" />
-                <Skeleton className="w-full h-10 rounded-sm" />
-                <Skeleton className="w-full h-10 rounded-sm" />
-              </div>
-            </Container>
+            <Section className="grid grid-cols-1 md:grid-cols-2 md:col-span-2 gap-4 w-full">
+              <Container>
+                <Skeleton className="min-w-[250px] h-full rounded-md" />
+              </Container>
+              <Container>
+                <div className="flex flex-col gap-3 min-w-[250px] min-h-32">
+                  <Skeleton className="w-full h-10 rounded-sm" />
+                  <Skeleton className="w-full h-10 rounded-sm" />
+                  <Skeleton className="w-full h-10 rounded-sm" />
+                  <Skeleton className="w-full h-10 rounded-sm" />
+                </div>
+              </Container>
+            </Section>
           }
         >
           <RenderProduct slug={params?.handle} />
