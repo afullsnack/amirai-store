@@ -6,6 +6,8 @@ import {
   CircleUser,
   ShoppingCart,
   SearchX,
+  Minus,
+  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,9 +29,10 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { useCart } from "./cart/cart-context";
+import { Badge } from "./ui/badge";
 
 export default function Header() {
-  const cartContext = useCart();
+  const { cart, updateCartItem } = useCart();
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
@@ -129,9 +132,12 @@ export default function Header() {
         </DropdownMenu>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="shrink-0 gap-2">
+            <Button variant="outline" className="shrink-0 gap-2 relative">
               <ShoppingCart className="h-5 w-5" />
-              <span>${cartContext.cart.totalAmount}</span>
+              <span>${cart.totalAmount}</span>
+              <Badge className="absolute -right-2 -top-2 w-4 h-5 items-center justify-center rounded-full">
+                {cart.totalQuantity}
+              </Badge>
               <span className="sr-only">Toggle cart</span>
             </Button>
           </SheetTrigger>
@@ -139,10 +145,65 @@ export default function Header() {
             <SheetHeader>
               <SheetTitle>Shopping cart</SheetTitle>
             </SheetHeader>
+
             <div className="h-full relative overflow-y-auto">
-              <div className="absolute left-0 right-0 bottom-10 flex items-center justify-between px-2 py-4 border-b border-t">
-                <span>SUB-TOTAL</span>
-                <span>$0</span>
+              <div>
+                {cart.items.map((item, _) => (
+                  <div
+                    key={item.productId}
+                    className="flex items-center gap-4 my-3"
+                  >
+                    <Image
+                      src={item.featuredImage.url}
+                      alt={item.featuredImage.altText}
+                      width={50}
+                      height={50}
+                      className="object-cover h-8 w-8 overflow-clip"
+                    />
+                    <div className="grid gap-1">
+                      <p className="text-sm font-medium leading-none">
+                        {item.name}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Qty:{item.quantity} Size:{item.selectedSize}
+                      </p>
+                    </div>
+                    <div className="ml-auto font-medium flex items-center gap-4">
+                      <div className="flex items-center gap-3">
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="h-6 w-6"
+                          onClick={() => {
+                            item.quantity === 1
+                              ? updateCartItem(item.productId, "delete")
+                              : updateCartItem(item.productId, "minus");
+                          }}
+                        >
+                          <Minus className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          className="h-6 w-6"
+                          onClick={() => {
+                            updateCartItem(item.productId, "plus");
+                          }}
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                      ${item.price}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="absolute left-0 right-0 bottom-10 flex flex-col gap-3">
+                <div className="flex items-center justify-between px-2 py-4 border-b border-t">
+                  <span>SUB-TOTAL</span>
+                  <span>${cart.totalAmount}</span>
+                </div>
+                <Button size={"lg"}>Proceed to checkout</Button>
               </div>
             </div>
           </SheetContent>

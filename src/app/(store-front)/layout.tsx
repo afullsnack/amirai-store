@@ -7,7 +7,7 @@ import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CartProvider, createEmptyCart } from "@/components/cart/cart-context";
+import { CartProvider } from "@/components/cart/cart-context";
 import CartWrapper from "@/components/cart/cart-wrapper";
 
 const geistSans = localFont({

@@ -1,5 +1,6 @@
 "use client";
 
+import { TAGS } from "@/lib/constants";
 import React, {
   createContext,
   use,
@@ -11,7 +12,7 @@ import React, {
   useTransition,
 } from "react";
 
-type Product = {
+export type Product = {
   id: string;
   name: string;
   // handle: string;
@@ -123,6 +124,8 @@ function cartReducer(state: Cart, action: CartAction): Cart {
   }
 }
 
+const LOCAL_STORAGE_KEY = TAGS.cart;
+
 export function CartProvider({
   children,
   initialCart,
@@ -130,44 +133,66 @@ export function CartProvider({
   children: React.ReactNode;
   initialCart: Cart;
 }) {
-  const [cart, setCart] = useState<Cart>(initialCart);
+  const [cart, setCart] = useState<Cart>(() => {
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return storedCart ? JSON.parse(storedCart) : initialCart;
+    }
+
+    return initialCart;
+  });
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
     initialCart,
     cartReducer,
   );
 
-  // useEffect(() => {
-  //   setCart(initialCart);
-  // }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cart));
+    }
+  }, [cart]);
 
-  const [isPending, startTransition] = useTransition();
+  const debouncedSetCart = useMemo(
+    () => debounce((newCart: Cart) => setCart(newCart), 300),
+    [],
+  );
+
+  // const [isPending, startTransition] = useTransition();
 
   const updateCartItem = (productId: string, updateType: UpdateType) => {
-    startTransition(() => {
-      updateOptimisticCart({
+    debouncedSetCart(
+      // startTransition(() => {
+      cartReducer(cart, {
         type: "UPDATE_ITEM",
         payload: { productId, updateType },
-      });
-    });
+      }),
+      // }),
+    );
+    // Update server here
   };
 
   const addCartItem = (product: Product, selectedSize: string) => {
-    startTransition(() => {
-      updateOptimisticCart({
-        type: "ADD_ITEM",
-        payload: { product, selectedSize },
-      });
-    });
+    debouncedSetCart(
+      cartReducer(
+        cart,
+        // updateOptimisticCart(
+        {
+          type: "ADD_ITEM",
+          payload: { product, selectedSize },
+        },
+      ),
+    );
+    // Update server here
   };
 
   const value = useMemo(
     () => ({
-      cart: optimisticCart,
+      cart,
       updateCartItem,
       addCartItem,
-      isPending,
+      // isPending,
     }),
-    [optimisticCart],
+    [cart],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -179,4 +204,16 @@ export function useCart() {
     throw new Error("useCart must be used within a CartProvider");
   }
   return context;
+}
+
+function debounce(func: Function, wait: number) {
+  let timeout: NodeJS.Timeout;
+  return function executedFunction(...args: any[]) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }

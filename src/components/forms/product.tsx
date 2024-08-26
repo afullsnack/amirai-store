@@ -13,7 +13,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { useCart } from "../cart/cart-context";
+import { Product, useCart } from "../cart/cart-context";
+import { useState } from "react";
 
 export const SizeForm: React.FC<{
   sizes: string[];
@@ -32,7 +33,23 @@ export const SizeForm: React.FC<{
   url,
   name,
 }) => {
-  const cartContet = useCart();
+  const { addCartItem, cart, updateCartItem } = useCart();
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddToCart = (product: Product, selectedSize: string) => {
+    if (isAdding) return;
+    setIsAdding(true);
+    addCartItem(product, selectedSize);
+    setTimeout(() => setIsAdding(false), 500); // Re-enable after 500ms
+  };
+
+  const handleUpdateCart = (productId: string) => {
+    if (isAdding) return;
+    setIsAdding(true);
+    updateCartItem(productId, "plus");
+    setTimeout(() => setIsAdding(false), 500); // Re-enable after 500ms
+  };
+
   const FormSchema = z.object({
     size: z.enum([defaultSelect, ...sizes], {
       required_error: "You need to select a size",
@@ -47,25 +64,21 @@ export const SizeForm: React.FC<{
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    cartContet.addCartItem(
-      {
-        price,
-        name,
-        availableSizes: sizes,
-        id,
-        featuredImage: { url, altText: name },
-      },
-      data.size,
-    );
-    // alert(data);
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // })
+    // If item already in cart
+    if (cart.items.some((val) => val.productId === id)) {
+      handleUpdateCart(id);
+    } else {
+      handleAddToCart(
+        {
+          price,
+          name,
+          availableSizes: sizes,
+          id,
+          featuredImage: { url, altText: name },
+        },
+        data.size,
+      );
+    }
   }
   return (
     <Form {...form}>
@@ -104,8 +117,8 @@ export const SizeForm: React.FC<{
             </FormItem>
           )}
         />
-        <Button type="submit" className="capitalize">
-          Add to cart
+        <Button disabled={isAdding} type="submit" className="capitalize">
+          {isAdding ? "Adding..." : "Add to cart"}
         </Button>
       </form>
     </Form>
