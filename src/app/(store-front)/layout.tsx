@@ -7,6 +7,8 @@ import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CartProvider, createEmptyCart } from "@/components/cart/cart-context";
+import CartWrapper from "@/components/cart/cart-wrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,12 +39,18 @@ export default function RootLayout({
   return (
     <Layout>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Header />
-        {children}
-        <Suspense fallback={<Skeleton className="min-w-8 h-3 rounded-sm" />}>
-          <CategoriesSection />
+        <Suspense>
+          <CartWrapper>
+            <Header />
+            {children}
+            <Suspense
+              fallback={<Skeleton className="min-w-8 h-3 rounded-sm" />}
+            >
+              <CategoriesSection />
+            </Suspense>
+            <SiteFooter />
+          </CartWrapper>
         </Suspense>
-        <SiteFooter />
       </body>
     </Layout>
   );

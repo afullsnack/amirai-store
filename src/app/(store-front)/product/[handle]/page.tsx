@@ -1,4 +1,5 @@
 "use client";
+
 /***
  * Handle product display and add to cart actions
  * Render a client page that loads a server component
