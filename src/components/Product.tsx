@@ -29,6 +29,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { client } from "@/sanity/lib/client";
+import { useCart } from "./cart/cart-context";
 
 const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
@@ -135,6 +136,8 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
   sizes,
   description,
   categories,
+  _id,
+  url,
 }) => {
   return (
     <Container className="flex flex-col items-start justify-start gap-4">
@@ -168,6 +171,11 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
       <SizeForm
         sizes={sizes ?? ["small", "medium", "large"]}
         defaultSelect={sizes[0] ?? "small"}
+        price={price}
+        description={description}
+        id={_id}
+        url={url}
+        name={name}
       />
 
       <Link

@@ -13,11 +13,26 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { useCart } from "../cart/cart-context";
 
-export const SizeForm: React.FC<{ sizes: string[]; defaultSelect: string }> = ({
+export const SizeForm: React.FC<{
+  sizes: string[];
+  defaultSelect: string;
+  price: number;
+  description: string;
+  id: string;
+  url: string;
+  name: string;
+}> = ({
   sizes = ["fixures", "mscsdc"],
   defaultSelect,
+  price,
+  description,
+  id,
+  url,
+  name,
 }) => {
+  const cartContet = useCart();
   const FormSchema = z.object({
     size: z.enum([defaultSelect, ...sizes], {
       required_error: "You need to select a size",
@@ -32,7 +47,17 @@ export const SizeForm: React.FC<{ sizes: string[]; defaultSelect: string }> = ({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    alert(data);
+    cartContet.addCartItem(
+      {
+        price,
+        name,
+        availableSizes: sizes,
+        id,
+        featuredImage: { url, altText: name },
+      },
+      data.size,
+    );
+    // alert(data);
     // toast({
     //   title: "You submitted the following values:",
     //   description: (

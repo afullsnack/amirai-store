@@ -1,3 +1,4 @@
+"use client";
 import {
   Package2,
   Menu,
@@ -25,8 +26,11 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { useCart } from "./cart/cart-context";
 
 export default function Header() {
+  const cartContext = useCart();
+
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -127,7 +131,7 @@ export default function Header() {
           <SheetTrigger asChild>
             <Button variant="outline" className="shrink-0 gap-2">
               <ShoppingCart className="h-5 w-5" />
-              <span>$0.00</span>
+              <span>${cartContext.cart.totalAmount}</span>
               <span className="sr-only">Toggle cart</span>
             </Button>
           </SheetTrigger>
