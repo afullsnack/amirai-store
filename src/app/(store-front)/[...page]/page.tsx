@@ -1,5 +1,6 @@
 "use client";
 
+import { useCart } from "@/components/cart/cart-context";
 import { CategoryHandler } from "@/components/CategoryHandler";
 import { CheckoutStepper } from "@/components/CheckoutStepper";
 import { Container, Main, Section } from "@/components/craft";
@@ -16,6 +17,7 @@ import { ChevronDown, Filter, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 import { useParams, usePathname } from "next/navigation";
+import Image from "next/image";
 import { Suspense } from "react";
 
 export default function CategoriesPage({
@@ -23,6 +25,7 @@ export default function CategoriesPage({
 }: {
   params: { page: string | string[] };
 }) {
+  const { cart } = useCart();
   const [page, sub] = params?.page;
 
   console.log(page, sub, ":::sub lists");
@@ -57,13 +60,39 @@ export default function CategoriesPage({
                   <ChevronDown className="size-3" />
                 </Button>
                 <span className="tet-lg font-bold text-balance text-black">
-                  $55.00
+                  ${cart.totalAmount}
                 </span>
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <Suspense>
-                <h1>Cart items</h1>
+                <div>
+                  {cart.items.map((item, _) => (
+                    <div
+                      key={item.productId}
+                      className="flex items-center gap-4 my-3"
+                    >
+                      <Image
+                        src={item.featuredImage.url}
+                        alt={item.featuredImage.altText}
+                        width={50}
+                        height={50}
+                        className="object-cover h-8 w-8 overflow-clip"
+                      />
+                      <div className="grid gap-1">
+                        <p className="text-sm font-medium leading-none">
+                          {item.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Qty:{item.quantity} Size:{item.selectedSize}
+                        </p>
+                      </div>
+                      <div className="ml-auto font-medium flex items-center gap-4">
+                        ${item.price}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </Suspense>
             </CollapsibleContent>
           </Collapsible>
@@ -73,7 +102,33 @@ export default function CategoriesPage({
             </div>
             <div className="hidden md:flex">
               <Suspense>
-                <h1>Cart items</h1>
+                <div>
+                  {cart.items.map((item, _) => (
+                    <div
+                      key={item.productId}
+                      className="flex items-center gap-4 my-3"
+                    >
+                      <Image
+                        src={item.featuredImage.url}
+                        alt={item.featuredImage.altText}
+                        width={50}
+                        height={50}
+                        className="object-cover h-8 w-8 overflow-clip"
+                      />
+                      <div className="grid gap-1">
+                        <p className="text-sm font-medium leading-none">
+                          {item.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Qty:{item.quantity} Size:{item.selectedSize}
+                        </p>
+                      </div>
+                      <div className="ml-auto font-medium flex items-center gap-4">
+                        ${item.price}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </Suspense>
             </div>
           </Container>

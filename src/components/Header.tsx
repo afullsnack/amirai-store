@@ -30,9 +30,11 @@ import {
 import Image from "next/image";
 import { useCart } from "./cart/cart-context";
 import { Badge } from "./ui/badge";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const { cart, updateCartItem } = useCart();
+  const { push } = useRouter();
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
@@ -203,7 +205,12 @@ export default function Header() {
                   <span>SUB-TOTAL</span>
                   <span>${cart.totalAmount}</span>
                 </div>
-                <Button size={"lg"}>Proceed to checkout</Button>
+                <Button
+                  onClick={() => push(`/checkout/${crypto.randomUUID()}`)}
+                  size={"lg"}
+                >
+                  Proceed to checkout
+                </Button>
               </div>
             </div>
           </SheetContent>
