@@ -23,12 +23,12 @@ export default function SiteFooter() {
             <Link href="/">
               <h3 className="sr-only">Amirai</h3>
               <Image
-                src={Logo}
-                alt="Logo"
-                width={120}
-                height={27.27}
-                className="transition-all hover:opacity-75 dark:invert"
-              ></Image>
+                src="/logo.png"
+                alt="logo"
+                width={100}
+                height={10}
+                className="object-cover h-8 w-20 overflow-clip"
+              />
             </Link>
             <p className="text-balance">
               Amirai is a clothing brand designing cutting edge pieces, and

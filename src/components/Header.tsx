@@ -24,6 +24,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import Image from "next/image";
 
 export default function Header() {
   return (
@@ -82,7 +83,13 @@ export default function Header() {
         >
           {/*<Package2 className="h-6 w-6" />*/}
           <span className="text-xl font-bold text-balance text-black">
-            Amirai
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={100}
+              height={10}
+              className="object-cover h-8 w-24 overflow-clip"
+            />
           </span>
           <span className="sr-only">Amirai</span>
         </Link>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Layout } from "@/components/craft";
-import SiteFooter from "@/components/FooterG";
+import SiteFooter from "@/components/Footer";
 import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
 import { Suspense } from "react";
@@ -20,6 +20,13 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Amirai",
   description: "The Amirai store",
+  icons: [
+    {
+      url: "/logo_mark.png",
+      rel: "icon",
+      type: "img/png",
+    },
+  ],
 };
 
 export default function RootLayout({
