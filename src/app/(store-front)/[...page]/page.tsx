@@ -66,7 +66,7 @@ export default function CategoriesPage({
             </CollapsibleTrigger>
             <CollapsibleContent>
               <Suspense>
-                <div>
+                <div className="px-6">
                   {cart.items.map((item, _) => (
                     <div
                       key={item.productId}
