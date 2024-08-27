@@ -41,16 +41,16 @@ export default function Header() {
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
-          href="#"
+          href="/category/pink-dress"
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
           Dresses
         </Link>
         <Link
-          href="#"
+          href="/category/gown"
           className="text-muted-foreground transition-colors hover:text-foreground min-w-fit"
         >
-          Best sellers
+          Gown
         </Link>
       </nav>
 
@@ -71,16 +71,16 @@ export default function Header() {
               <span className="sr-only">Amirai</span>
             </Link>
             <Link
-              href="#"
+              href="/category/pink-dress"
               className="text-muted-foreground hover:text-foreground"
             >
               Dresses
             </Link>
             <Link
-              href="#"
+              href="/category/gown"
               className="text-muted-foreground hover:text-foreground min-w-fit"
             >
-              Best sellers
+              Gown
             </Link>
           </nav>
         </SheetContent>
@@ -150,7 +150,7 @@ export default function Header() {
                 <SheetTitle>Shopping cart</SheetTitle>
               </SheetHeader>
 
-              <div className="h-full relative overflow-y-auto">
+              <div className="h-full relative overflow-y-auto w-full">
                 <div>
                   {cart.items.map((item, _) => (
                     <div
@@ -165,10 +165,10 @@ export default function Header() {
                         className="object-cover h-8 w-8 overflow-clip"
                       />
                       <div className="grid gap-1">
-                        <p className="text-sm font-medium leading-none">
+                        <p className="text-xs md:text-sm font-medium leading-none">
                           {item.name}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-xs md:text-sm text-muted-foreground">
                           Qty:{item.quantity} Size:{item.selectedSize}
                         </p>
                       </div>

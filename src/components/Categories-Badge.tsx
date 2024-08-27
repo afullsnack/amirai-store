@@ -26,19 +26,14 @@ export default async function CategoriesSection() {
                 slug: { current: string; _type: string };
               }) => (
                 <Link
-                  key={category?.name}
+                  key={category?.slug?.current}
                   href={
                     category?.name === "all"
                       ? "/category"
-                      : `/category/${category?.name}`
+                      : `/category/${category?.slug?.current}`
                   }
                 >
-                  <Badge
-                    className="carpital
-                "
-                  >
-                    {category?.name}
-                  </Badge>
+                  <Badge className="carpital">{category?.name}</Badge>
                 </Link>
               ),
             )}

@@ -61,7 +61,7 @@ export default function SiteFooter() {
             </Button>
           </div>
           <p className="text-muted-foreground">
-            © <a href="https://amirai.vercel.com">Amirai</a>. All rights
+            © <a href="https://amirai-store.vercel.com">Amirai</a>. All rights
             reserved. 2024-present.
           </p>
         </Container>
