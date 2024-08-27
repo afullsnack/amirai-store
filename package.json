@@ -25,6 +25,7 @@
     "@sanity/image-url": "1",
     "@sanity/vision": "3",
     "@stepperize/react": "^3.0.1",
+    "@trigger.dev/sdk": "3.0.0-beta.55",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.2.0",
