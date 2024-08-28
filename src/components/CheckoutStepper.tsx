@@ -23,8 +23,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronLeft, ChevronRight, CreditCard } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { Separator } from "./ui/separator";
+import dynamic from "next/dynamic";
+import PaystackPop from "@paystack/inline-js";
+import { useCart } from "./cart/cart-context";
+import { PaymentStatusDialog } from "@/components/checkout/PaymentStatusDialog";
+import { useState } from "react";
 
 const { useStepper } = defineStepper(
   { id: "information" },
@@ -46,7 +50,19 @@ const formSchema = z.object({
 export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
   checkoutId,
 }) => {
+  const paystackInstance = new PaystackPop();
+  const [paymentStatus, setPaymentStatus] = useState<string>("");
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState<boolean>(false);
+
   const stepper = useStepper();
+  const {
+    cart: { totalAmount },
+  } = useCart();
+  const onSuccess = (transaction: any) => {
+    console.log(transaction, ":::Transaction object from paystack");
+    setPaymentStatus(transaction?.status);
+    setPaymentDialogOpen(true);
+  };
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,6 +81,34 @@ export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
 
   return (
     <>
+      <PaymentStatusDialog
+        status={paymentStatus}
+        title={
+          paymentStatus === "success" ? `Payment successful` : `Payment failed`
+        }
+        message={
+          paymentStatus === "success"
+            ? `Your order has been placed successfully!`
+            : `Your payment failed to process`
+        }
+        description={
+          paymentStatus === "success"
+            ? `An invoice with the details of your order has been sent to the provided email address!`
+            : `Something went wrong when trying to process the payment for your oeder`
+        }
+        btnText={"Retry"}
+        btnFunction={function (...args: any[]): void {
+          paystackInstance.newTransaction({
+            key: process.env.NEXT_PUBLIC_PAYSTACK_PK as string,
+            email: form.getValues("email"),
+            amount: totalAmount * 1600 * 100,
+            reference: checkoutId,
+            onSuccess,
+          });
+        }}
+        open={paymentDialogOpen}
+        setOpen={setPaymentDialogOpen}
+      />
       <Container className="!px-0 pb-5 flex w-full items-start">
         <Breadcrumb>
           <BreadcrumbList>
@@ -389,7 +433,18 @@ export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
 
               <Button
                 className="w-full md:w-auto"
-                onClick={() => alert("You will bre redirected to make payment")}
+                onClick={() => {
+                  // TODO: call sanity to store order details
+                  // > Map checkoutId to to cart, contact and shipping information
+
+                  paystackInstance.newTransaction({
+                    key: process.env.NEXT_PUBLIC_PAYSTACK_PK as string,
+                    email: form.getValues("email"),
+                    amount: totalAmount * 1600 * 100,
+                    reference: checkoutId,
+                    onSuccess,
+                  });
+                }}
               >
                 Pay now
               </Button>
