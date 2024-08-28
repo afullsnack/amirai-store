@@ -17,10 +17,8 @@ import { ChevronDown, Filter, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 import { useRouter } from "next/navigation";
-import { getCookie } from "cookies-next";
 import Image from "next/image";
-import { Suspense } from "react";
-import useEffectAfterMount from "@/lib/after-mount";
+import { Suspense, useEffect } from "react";
 
 export default function CategoriesPage({
   params,
@@ -33,7 +31,8 @@ export default function CategoriesPage({
 
   console.log(page, sub, ":::sub lists", cart);
 
-  useEffectAfterMount(() => {
+  useEffect(() => {
+    console.log("INside aftermount");
     if (!cart.items.length && page === "checkout") {
       alert("You do not have any items in cart, add an item to proceed");
       router.replace("/category");
