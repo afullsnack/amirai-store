@@ -31,9 +31,12 @@ import Image from "next/image";
 import { useCart } from "./cart/cart-context";
 import { Badge } from "./ui/badge";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Header() {
   const { cart, updateCartItem } = useCart();
+  const [mobileSheetOpen, setMobileSheetOpen] = useState<boolean>(false);
+  const [cartSheetOpen, setCartSheetOpen] = useState<boolean>(false);
   const { push } = useRouter();
   const pathname = usePathname();
 
@@ -54,7 +57,7 @@ export default function Header() {
         </Link>
       </nav>
 
-      <Sheet>
+      <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
@@ -64,21 +67,31 @@ export default function Header() {
         <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
             <Link
-              href="#"
+              href=""
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
+              <span className="text-xl font-bold text-balance text-black">
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={100}
+                  height={10}
+                  className="object-cover h-8 w-24 overflow-clip"
+                />
+              </span>
               <span className="sr-only">Amirai</span>
             </Link>
             <Link
               href="/category/pink-dress"
               className="text-muted-foreground hover:text-foreground"
+              onClick={() => setMobileSheetOpen(false)}
             >
               Dresses
             </Link>
             <Link
               href="/category/gown"
               className="text-muted-foreground hover:text-foreground min-w-fit"
+              onClick={() => setMobileSheetOpen(false)}
             >
               Gown
             </Link>
@@ -134,7 +147,7 @@ export default function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
         {!pathname.includes("checkout") && (
-          <Sheet>
+          <Sheet open={cartSheetOpen} onOpenChange={setCartSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" className="shrink-0 gap-2 relative">
                 <ShoppingCart className="h-5 w-5" />
@@ -208,7 +221,10 @@ export default function Header() {
                     <span>${cart.totalAmount}</span>
                   </div>
                   <Button
-                    onClick={() => push(`/checkout/${crypto.randomUUID()}`)}
+                    onClick={() => {
+                      setCartSheetOpen(false);
+                      push(`/checkout/${crypto.randomUUID()}`);
+                    }}
                     size={"lg"}
                   >
                     Proceed to checkout
