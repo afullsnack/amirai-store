@@ -16,9 +16,11 @@ import { client } from "@/sanity/lib/client";
 import { ChevronDown, Filter, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
-import { useParams, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { getCookie } from "cookies-next";
 import Image from "next/image";
 import { Suspense } from "react";
+import useEffectAfterMount from "@/lib/after-mount";
 
 export default function CategoriesPage({
   params,
@@ -26,9 +28,17 @@ export default function CategoriesPage({
   params: { page: string | string[] };
 }) {
   const { cart } = useCart();
+  const router = useRouter();
   const [page, sub] = params?.page;
 
-  console.log(page, sub, ":::sub lists");
+  console.log(page, sub, ":::sub lists", cart);
+
+  useEffectAfterMount(() => {
+    if (!cart.items.length && page === "checkout") {
+      alert("You do not have any items in cart, add an item to proceed");
+      router.replace("/category");
+    }
+  }, []);
 
   if (page.includes("category")) {
     return (
