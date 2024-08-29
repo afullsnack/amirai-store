@@ -8,6 +8,7 @@
  */
 import { Container, Main, Section } from "@/components/craft";
 import { RenderProduct } from "@/components/Product";
+import { RenderRelatedProducts } from "@/components/RelatedProducts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 
@@ -39,13 +40,6 @@ export default function ProductPage({
         >
           <RenderProduct slug={params?.handle} />
         </Suspense>
-      </Section>
-
-      {/* Related products section*/}
-      <Section>
-        <Container>
-          <h1>Handle related products</h1>
-        </Container>
       </Section>
     </Main>
   );

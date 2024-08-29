@@ -7,7 +7,7 @@ const getProducts = async (filter?: string) => {
   if (filter && filter?.length) {
     const fitleredProducts = await client.fetch(
       `*[_type == "product" && categories[]->name match "${filter}"]{
-        "url": image.asset->url,
+        "urls": asset[].asset->url,
         "slug": slug.current,
         name,
         price
@@ -19,7 +19,7 @@ const getProducts = async (filter?: string) => {
   }
   const products = await client.fetch(
     `*[_type == "product"]{
-      "url": image.asset->url,
+      "urls": asset[].asset->url,
       "slug": slug.current,
       name,
       price
@@ -33,15 +33,16 @@ export const CategoryHandler: React.FC<{
   filter?: string;
 }> = async ({ filter }) => {
   const products: any[] = await getProducts(filter);
+  console.log();
 
   return (
     <>
       {products.map((product: any, index: number) => (
-        <Link key={index} href={`/product/${product.slug}`}>
+        <Link key={index} href={`/product/${product.slug}`} className="h-full">
           <ProductCard
             name={product?.name}
             price={product?.price ?? 120}
-            imageUrl={product?.url ?? "http://localhost:3000/logo.svg"}
+            imageUrl={product?.urls[0] ?? "http://localhost:3000/logo.svg"}
           />
         </Link>
       ))}

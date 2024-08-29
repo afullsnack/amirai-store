@@ -28,7 +28,7 @@ import dynamic from "next/dynamic";
 import PaystackPop from "@paystack/inline-js";
 import { useCart } from "./cart/cart-context";
 import { PaymentStatusDialog } from "@/components/checkout/PaymentStatusDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const { useStepper } = defineStepper(
   { id: "information" },
@@ -50,14 +50,17 @@ const formSchema = z.object({
 export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
   checkoutId,
 }) => {
-  const paystackInstance = new PaystackPop();
+  const [paystackInstance, setPaystackInstance] =
+    useState<typeof PaystackPop>();
   const [paymentStatus, setPaymentStatus] = useState<string>("");
   const [paymentDialogOpen, setPaymentDialogOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    setPaystackInstance(new PaystackPop());
+  }, []);
+
   const stepper = useStepper();
-  const {
-    cart: { totalAmount },
-  } = useCart();
+  const { cart } = useCart();
   const onSuccess = (transaction: any) => {
     console.log(transaction, ":::Transaction object from paystack");
     setPaymentStatus(transaction?.status);
@@ -98,10 +101,10 @@ export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
         }
         btnText={"Retry"}
         btnFunction={function (...args: any[]): void {
-          paystackInstance.newTransaction({
+          paystackInstance?.newTransaction({
             key: process.env.NEXT_PUBLIC_PAYSTACK_PK as string,
             email: form.getValues("email"),
-            amount: totalAmount * 1600 * 100,
+            amount: cart.totalAmount * 1600 * 100,
             reference: checkoutId,
             onSuccess,
           });
@@ -433,14 +436,28 @@ export const CheckoutStepper: React.FC<{ checkoutId: string }> = ({
 
               <Button
                 className="w-full md:w-auto"
-                onClick={() => {
+                onClick={async () => {
                   // TODO: call sanity to store order details
                   // > Map checkoutId to to cart, contact and shipping information
+
+                  // await addOrder(
+                  //   checkoutId,
+                  //   form.getValues("email"),
+                  //   `
+                  //     Country: ${form.getValues("country")}\n
+                  //     State: ${form.getValues("state")}\n
+                  //     City: ${form.getValues("city")}\n
+                  //     Address: ${form.getValues("address")}\n
+                  //     ZipCode: ${form.getValues("zipCode")}\n
+                  //     Full name: ${form.getValues("firstName")} ${form.getValues("lastName")}\n
+                  //   `,
+                  //   JSON.stringify(cart),
+                  // );
 
                   paystackInstance.newTransaction({
                     key: process.env.NEXT_PUBLIC_PAYSTACK_PK as string,
                     email: form.getValues("email"),
-                    amount: totalAmount * 1600 * 100,
+                    amount: cart.totalAmount * 1600 * 100,
                     reference: checkoutId,
                     onSuccess,
                   });

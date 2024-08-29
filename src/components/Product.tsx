@@ -19,7 +19,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Ruler, Slash } from "lucide-react";
-import React from "react";
+import React, { Suspense } from "react";
 import { SizeForm } from "./forms/product";
 import Link from "next/link";
 import {
@@ -30,13 +30,14 @@ import {
 } from "@/components/ui/accordion";
 import { client } from "@/sanity/lib/client";
 import { useCart } from "./cart/cart-context";
+import { RenderRelatedProducts } from "./RelatedProducts";
 
 const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
   const item = await client.fetch(
     `*[_type == "product" && slug.current match "${slug}"][0]{
       _id,
-      "url": image.asset->url,
+      "urls": asset[].asset->url,
       "slug": slug.current,
       name,
       price,
@@ -60,34 +61,31 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
     <>
       <Container className="grid gap-3">
         <MainImage
-          url={item?.url ?? "http://localhost:3000/logo.svg"}
+          url={item?.urls[0] ?? "http://localhost:3000/logo.svg"}
           alt="Main product image"
           ratio={3 / 4}
           className="rounded-lg"
         />
 
-        {/*<div>
+        <div>
           <Carousel
             opts={{
-              align: "start",
+              align: "center",
             }}
             className="w-full max-w-sm"
           >
-            <CarouselContent>
-              {Array.from({ length: 5 }).map((_, index) => (
+            <CarouselContent className="w-full">
+              {item?.urls.slice(1).map((url: string, index: number) => (
                 <CarouselItem
                   key={index}
                   className="md:basis-1/2 lg:basis-1/3 basis-1/4"
                 >
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex aspect-square bg-muted-foreground items-center justify-center p-6">
-                        <Thumbnail
-                          url={"http://localhost:3000/vercel.svg"}
-                          alt="thumb nail"
-                        />
-                      </CardContent>
-                    </Card>
+                  <div className="flex aspect-square p-1 bg-muted-foreground rounded-md">
+                    <Thumbnail
+                      url={url ?? "http://localhost:3000/vercel.svg"}
+                      alt="Thumbnail"
+                      className="w-full rounded-sm"
+                    />
                   </div>
                 </CarouselItem>
               ))}
@@ -95,7 +93,7 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
             <CarouselPrevious />
             <CarouselNext />
           </Carousel>
-        </div>*/}
+        </div>
       </Container>
 
       <Container className="w-full place-content-start justify-items-start grid items-start justify-start">
@@ -125,6 +123,17 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </Container>
+
+      {/* Related products section*/}
+      <Container>
+        <Suspense fallback={"Loading...."}>
+          <RenderRelatedProducts
+            categories={item?.categories.map(
+              (item: { name: string }) => item?.name,
+            )}
+          />
+        </Suspense>
       </Container>
     </>
   );
@@ -205,6 +214,9 @@ const MainImage: React.FC<{
         height={40}
         sizes={sizes}
         className={cn("", className)}
+        priority={true}
+        loading="eager"
+        quality={65}
         style={{
           aspectRatio: ratio,
           width: "100%",
@@ -230,11 +242,15 @@ const Thumbnail: React.FC<{
   className?: string;
   alt: string;
 }> = ({ url, className, alt }) => (
-  <Image
+  <img
     src={url}
     alt={alt}
-    width={24}
-    height={24}
-    className={cn("size-6", className)}
+    // priority={true}
+    // loading="eager"
+    // quality={35}
+    // fill
+    width={"100%"}
+    height={"100%"}
+    className={cn("object-cover w-full h-full", className)}
   />
 );

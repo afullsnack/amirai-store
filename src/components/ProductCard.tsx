@@ -9,16 +9,19 @@ export const ProductCard: React.FC<{
   price: number;
 }> = ({ imageUrl, name, price }) => {
   return (
-    <Card>
+    <Card className="h-full">
       <CardContent className="!p-0">
-        <div className="relative min-h-56">
+        <div className="relative min-h-56 w-full">
           <Image
             src={imageUrl}
             alt={name ?? "Product name"}
             fill
             objectFit="contain"
             objectPosition="center"
-            className="object-contain w-full"
+            className="object-cover w-full"
+            quality={40}
+            priority={true}
+            loading="eager"
           />
         </div>
       </CardContent>
