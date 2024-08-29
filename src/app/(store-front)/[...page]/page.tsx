@@ -40,6 +40,21 @@ export default function CategoriesPage({
   }, []);
 
   if (page.includes("category")) {
+    if (sub === "women") {
+      return (
+        <Main>
+          <Section>
+            <Container>
+              <div className="flex space-x-2 items-center justify-center min-h-72">
+                <h1 className="text-5xl border-b text-center border-orange-500/70 pb-3 text-wrap">
+                  Amirai woman is rebranding and will be back soon
+                </h1>
+              </div>
+            </Container>
+          </Section>
+        </Main>
+      );
+    }
     return (
       <Main>
         <Section>
