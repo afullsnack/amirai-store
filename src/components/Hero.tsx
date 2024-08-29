@@ -12,7 +12,6 @@ export default function Hero() {
           </h1>
           <Button className="w-52">NEW COLLECTION</Button>
         </div>
-        c
       </Container>
     </Section>
   );
