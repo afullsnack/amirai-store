@@ -24,5 +24,11 @@ export const Category: SchemaTypeDefinition = {
         rule.required().warning("This field required for unique URLs"),
       description: "The slug of the category for unique URLs",
     },
+    {
+      name: "main",
+      title: "Main Category",
+      type: "reference",
+      to: { type: "category" },
+    },
   ],
 };

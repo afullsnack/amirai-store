@@ -24,15 +24,21 @@ export const Product: SchemaTypeDefinition = {
       description: "The slug of the product for unique URLs",
     },
     {
-      name: "image",
-      title: "Product image",
-      type: "image",
-      options: { hotspot: true, metadata: ["palette"] },
-      validation: (rule) =>
-        rule
-          .required()
-          .assetRequired()
-          .error("An image is required for the product to be published"),
+      name: "asset",
+      title: "Product images",
+      type: "array",
+      description: "Product images",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true, metadata: ["palette", "lqip"] },
+          validation: (rule) =>
+            rule
+              .required()
+              .required()
+              .error("An image is required for the product to be published"),
+        },
+      ],
     },
     {
       name: "categories",
