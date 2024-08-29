@@ -43,11 +43,11 @@ export default function RootLayout({
           <CartWrapper>
             <Header />
             {children}
-            <Suspense
+            {/*<Suspense
               fallback={<Skeleton className="min-w-8 h-3 rounded-sm" />}
             >
               <CategoriesSection />
-            </Suspense>
+            </Suspense>*/}
             <SiteFooter />
           </CartWrapper>
         </Suspense>

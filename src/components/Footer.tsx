@@ -31,38 +31,53 @@ export default function SiteFooter() {
               />
             </Link>
             <p className="text-balance">
-              Amirai is a clothing brand designing cutting edge pieces, and
-              ships globally.
+              Amirai is a brand new company which offers the most stylish,
+              modern, classic, contemporary and high quality exclusive clothing.
+              Amirai was created to cater to every classy, modern woman and
+              their needs when it comes to clothing. No matter the occasion, big
+              or small, there is something available in our store just perfect
+              for you.
             </p>
           </div>
           <div className="flex flex-col gap-2">
             <h5 className="text-lg font-semibold">Website</h5>
-            <Link href="/#">About Us</Link>
+            <Link href="/about-us">About Us</Link>
             <Link href="/#">Size Chart</Link>
             <Link href="/#">Shipping and return information</Link>
           </div>
           <div className="flex flex-col gap-2">
             <h5 className="text-lg font-semibold">Legal</h5>
             <Link href="/policy/privacy-policy">Privacy Policy</Link>
-            <Link href="/policy/terms-of-service">Terms of Service</Link>
-            <Link href="/policy/cookie-policy">Cookie Policy</Link>
+            <Link href="/policy/privacy-policy">Terms of Service</Link>
+            <Link href="/policy/privacy-policy">Cookie Policy</Link>
           </div>
         </Container>
         <Container className="not-prose flex flex-col justify-between gap-6 border-t md:flex-row md:items-center md:gap-2">
           <div className="flex gap-2">
-            <Button variant="outline" size="icon">
-              <Instagram />
-            </Button>
+            <Link
+              href={
+                "https://www.instagram.com/amiraikids?igsh=MXJhNDZhMnoxcm1tcw%3D%3D&utm_source=qr"
+              }
+              target="_blank"
+            >
+              <Button variant="outline" size="icon">
+                <Instagram />
+              </Button>
+            </Link>
             <Button variant="outline" size="icon">
               <Twitter />
             </Button>
-            <Button variant="outline" size="icon">
-              <Facebook />
-            </Button>
+            <Link
+              href={"https://www.facebook.com/Amirai-501805693547661/"}
+              target="_blank"
+            >
+              <Button variant="outline" size="icon">
+                <Facebook />
+              </Button>
+            </Link>
           </div>
           <p className="text-muted-foreground">
-            © <a href="https://amirai-store.vercel.com">Amirai</a>. All rights
-            reserved. 2024-present.
+            © <a href="/">Amirai</a>. All rights reserved. 2024-present.
           </p>
         </Container>
       </Section>
