@@ -74,6 +74,7 @@ const config = {
       },
       backgroundImage: {
         "hero-image": "url('/amirai-hero-img.jpeg')",
+        "mobile-hero-image": "url('/mobile-hero-img.jpeg')",
       },
     },
   },

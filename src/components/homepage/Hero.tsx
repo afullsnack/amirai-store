@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <Section className="bg-hero-image md:min-h-[80vh] min-h-[90vh] grid place-items-center md:bg-[length:150%] bg-[length:195%_800px] md:bg-[-200px_-360px] bg-no-repeat">
-      <Container className="grid place-items-center h-full">
+    <Section className="bg-mobile-hero-image sm:bg-hero-image md:min-h-[80vh] min-h-[90vh] grid place-items-center md:bg-[length:150%] bg-[length:100%_100%] md:bg-[-200px_-360px] bg-no-repeat">
+      <Container className="grid md:place-items-center place-items-end pb-32 md:p-0 h-full">
         <div className="items-center justify-center grid place-items-center">
           <h1 className="text-4xl text-white text-center font-semibold p-2 rounded-sm">
             Precious moments in
