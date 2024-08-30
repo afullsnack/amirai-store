@@ -31,6 +31,7 @@ import {
 import { client } from "@/sanity/lib/client";
 import { useCart } from "./cart/cart-context";
 import { RenderRelatedProducts } from "./RelatedProducts";
+import { PortableText } from "next-sanity";
 
 const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
@@ -105,7 +106,41 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
           <AccordionItem value="item-1">
             <AccordionTrigger>Description</AccordionTrigger>
             <AccordionContent>
-              {item?.description ?? "Descritpion"}
+              <PortableText
+                value={item?.description}
+                listNestingMode="html"
+                components={{
+                  list: {
+                    bullet: ({ children }) => (
+                      <ul className="mt-xl ml-auto list-disc pl-4">
+                        {children}
+                      </ul>
+                    ),
+                    number: ({ children }) => (
+                      <ol className="mt-lg">{children}</ol>
+                    ),
+
+                    // Ex. 2: rendering custom lists
+                    checkmarks: ({ children }) => (
+                      <ol className="m-auto text-lg">{children}</ol>
+                    ),
+                  },
+                  listItem: {
+                    // Ex. 1: customizing common list types
+                    bullet: ({ children }) => (
+                      <li
+                        className="list-disc"
+                        style={{ listStyleType: "disc" }}
+                      >
+                        {children}
+                      </li>
+                    ),
+
+                    // Ex. 2: rendering custom list items
+                    checkmarks: ({ children }) => <li>✅ {children}</li>,
+                  },
+                }}
+              />
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">

@@ -69,7 +69,8 @@ export const Product: SchemaTypeDefinition = {
     {
       name: "description",
       title: "description",
-      type: "text",
+      type: "array",
+      of: [{ type: "block" }],
     },
   ],
 };
