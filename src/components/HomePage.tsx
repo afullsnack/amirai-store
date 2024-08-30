@@ -2,6 +2,7 @@ import { Container, Main, Section } from "@/components/craft";
 import Image from "next/image";
 import Hero from "@/components/Hero";
 import { Bus, Coins, Ruler } from "lucide-react";
+import SiteFooter from "@/components/Footer";
 
 type FeatureText = {
   icon: JSX.Element;
@@ -39,6 +40,7 @@ export default async function HomePage() {
           </div>
         </Container>
       </Section>
+      <SiteFooter />
     </Main>
   );
 }

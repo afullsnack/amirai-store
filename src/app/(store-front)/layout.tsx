@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Layout } from "@/components/craft";
-import SiteFooter from "@/components/Footer";
-import CategoriesSection from "@/components/Categories-Badge";
 import Header from "@/components/Header";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { CartProvider } from "@/components/cart/cart-context";
 import CartWrapper from "@/components/cart/cart-wrapper";
 
 const geistSans = localFont({
@@ -48,7 +44,6 @@ export default function RootLayout({
             >
               <CategoriesSection />
             </Suspense>*/}
-            <SiteFooter />
           </CartWrapper>
         </Suspense>
       </body>
