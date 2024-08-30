@@ -1,5 +1,6 @@
 import { Section, Container } from "@/components/craft";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -10,7 +11,9 @@ export default function Hero() {
             Precious moments in
             <br /> every piece!
           </h1>
-          <Button className="w-52">NEW COLLECTION</Button>
+          <Link href="/category">
+            <Button className="w-52">NEW COLLECTION</Button>
+          </Link>
         </div>
       </Container>
     </Section>

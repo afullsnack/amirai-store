@@ -1,8 +1,11 @@
 import { Container, Main, Section } from "@/components/craft";
 import Image from "next/image";
-import Hero from "@/components/Hero";
+import Hero from "@/components/homepage/Hero";
 import { Bus, Coins, Ruler } from "lucide-react";
 import SiteFooter from "@/components/Footer";
+import CTA from "@/components/forms/subscribe";
+import FAQ from "@/components/homepage/FAQ";
+import BestSellers from "@/components/homepage/BestSellers";
 
 type FeatureText = {
   icon: JSX.Element;
@@ -28,7 +31,7 @@ export default async function HomePage() {
   return (
     <Main>
       <Hero />
-      <Section>
+      {/*<Section>
         <Container>
           <div className="mt-6 grid gap-6 md:mt-12 md:grid-cols-2">
             {featureText.map(({ icon, title }, index) => (
@@ -39,7 +42,10 @@ export default async function HomePage() {
             ))}
           </div>
         </Container>
-      </Section>
+        </Section>*/}
+      <BestSellers />
+      <CTA />
+      <FAQ />
       <SiteFooter />
     </Main>
   );

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Layout } from "@/components/craft";
+import { Container, Layout, Section } from "@/components/craft";
 import Header from "@/components/Header";
 import { Suspense } from "react";
 import CartWrapper from "@/components/cart/cart-wrapper";
+import { Bus } from "lucide-react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,6 +36,14 @@ export default function RootLayout({
   return (
     <Layout>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Section className="!p-0 w-full h-4 py-2 items-start">
+          <Container>
+            <span className="flex items-center justify-center">
+              <Bus className="h-6 w-6" />
+              Express delivery worldwide
+            </span>
+          </Container>
+        </Section>
         <Suspense>
           <CartWrapper>
             <Header />

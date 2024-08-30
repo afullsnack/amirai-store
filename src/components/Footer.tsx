@@ -31,12 +31,9 @@ export default function SiteFooter() {
               />
             </Link>
             <p className="text-balance">
-              Amirai is a brand new company which offers the most stylish,
-              modern, classic, contemporary and high quality exclusive clothing.
-              Amirai was created to cater to every classy, modern woman and
-              their needs when it comes to clothing. No matter the occasion, big
-              or small, there is something available in our store just perfect
-              for you.
+              With every design, the customer is at the heart of our business
+              model from design, fabric sourcing, production, packaging, sales
+              to an unparalleled service.
             </p>
           </div>
           <div className="flex flex-col gap-2">

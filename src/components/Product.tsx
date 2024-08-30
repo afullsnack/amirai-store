@@ -181,7 +181,7 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
   description,
   categories,
   _id,
-  url,
+  urls,
 }) => {
   return (
     <Container className="flex flex-col items-start justify-start gap-4">
@@ -218,7 +218,7 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
         price={price}
         description={description}
         id={_id}
-        url={url}
+        url={urls[0]}
         name={name}
       />
 
