@@ -1,15 +1,5 @@
 import { Container } from "@/components/craft";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,6 +22,7 @@ import { client } from "@/sanity/lib/client";
 import { useCart } from "./cart/cart-context";
 import { RenderRelatedProducts } from "./RelatedProducts";
 import { PortableText } from "next-sanity";
+import { ProductGallery } from "./product/gallery";
 
 const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
@@ -60,42 +51,7 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
 
   return (
     <>
-      <Container className="grid gap-3">
-        <MainImage
-          url={item?.urls[0] ?? "http://localhost:3000/logo.svg"}
-          alt="Main product image"
-          ratio={3 / 4}
-          className="rounded-lg"
-        />
-
-        <div>
-          <Carousel
-            opts={{
-              align: "center",
-            }}
-            className="w-full max-w-sm"
-          >
-            <CarouselContent className="w-full">
-              {item?.urls.slice(1).map((url: string, index: number) => (
-                <CarouselItem
-                  key={index}
-                  className="md:basis-1/2 lg:basis-1/3 basis-1/4"
-                >
-                  <div className="flex aspect-square p-1 bg-muted-foreground rounded-md">
-                    <Thumbnail
-                      url={url ?? "http://localhost:3000/vercel.svg"}
-                      alt="Thumbnail"
-                      className="w-full rounded-sm"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
-        </div>
-      </Container>
+      <ProductGallery urls={item?.urls} />
 
       <Container className="w-full place-content-start justify-items-start grid items-start justify-start">
         <ProductControls {...item} />
@@ -232,60 +188,3 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
     </Container>
   );
 };
-
-const MainImage: React.FC<{
-  url: string;
-  ratio: number;
-  sizes?: string;
-  className?: string;
-  alt: string;
-}> = ({ url, ratio, sizes, className, alt }) => (
-  <Dialog>
-    <DialogTrigger asChild>
-      <Image
-        src={url}
-        alt={alt}
-        width={300}
-        height={40}
-        sizes={sizes}
-        className={cn("", className)}
-        priority={true}
-        loading="eager"
-        quality={65}
-        style={{
-          aspectRatio: ratio,
-          width: "100%",
-          height: "auto",
-        }}
-      />
-    </DialogTrigger>
-    <DialogContent className="max-w-7xl border-0 bg-transparent p-0">
-      <div className="relative h-[calc(100vh-220px)] w-full overflow-clip rounded-md bg-transparent shadow-md">
-        <Image
-          src={url}
-          fill
-          alt={alt || ""}
-          className="h-full w-full object-contain"
-        />
-      </div>
-    </DialogContent>
-  </Dialog>
-);
-
-const Thumbnail: React.FC<{
-  url: string;
-  className?: string;
-  alt: string;
-}> = ({ url, className, alt }) => (
-  <img
-    src={url}
-    alt={alt}
-    // priority={true}
-    // loading="eager"
-    // quality={35}
-    // fill
-    width={"100%"}
-    height={"100%"}
-    className={cn("object-cover w-full h-full", className)}
-  />
-);
