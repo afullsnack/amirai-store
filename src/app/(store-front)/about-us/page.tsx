@@ -33,7 +33,14 @@ export default function AboutUs() {
               <br />
               <b>Customer service:</b> +234809 911 1108
               <br />
-              <b>WhatsApp:</b> +234809 911 1108{"  "}
+              <b>WhatsApp:</b>{" "}
+              <a
+                href="https://wa.me/+2348099111108"
+                className="text-blue-400 underline"
+              >
+                +234809 911 1108
+              </a>
+              {"  "}
               <Link
                 href="https://wa.me/message/7SIMFLWVKADTN1"
                 target="_blank"
@@ -43,10 +50,10 @@ export default function AboutUs() {
               </Link>
               <br />
               <b>Email:</b>{" "}
-              <Link href="maillto:sales@amiraiofficial.com">
+              <Link href="mailto:sales@amiraiofficial.com">
                 sales@amiraiofficial.com
               </Link>{" "}
-              <Link href="maillto:support@amiraiofficial.com">
+              <Link href="mailto:support@amiraiofficial.com">
                 support@amiraiofficial.com
               </Link>
             </p>
