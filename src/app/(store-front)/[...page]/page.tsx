@@ -16,7 +16,7 @@ import { client } from "@/sanity/lib/client";
 import { ChevronDown, Filter, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Suspense, useEffect } from "react";
 
@@ -65,7 +65,16 @@ export default function CategoriesPage({
             </div>
           </Container>
           <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Suspense fallback={<Skeleton className="min-w-9 min-h-64" />}>
+            <Suspense
+              fallback={
+                <>
+                  <Skeleton className="min-w-9 min-h-64" />
+                  <Skeleton className="min-w-9 min-h-64" />
+                  <Skeleton className="min-w-9 min-h-64" />
+                  <Skeleton className="min-w-9 min-h-64" />
+                </>
+              }
+            >
               <CategoryHandler filter={sub} />
             </Suspense>
           </Container>
@@ -160,14 +169,6 @@ export default function CategoriesPage({
       </Main>
     );
   } else {
-    return (
-      <Main>
-        <Section>
-          <Container>
-            <h1>{params?.page} page</h1>
-          </Container>
-        </Section>
-      </Main>
-    );
+    return notFound();
   }
 }

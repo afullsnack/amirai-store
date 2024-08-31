@@ -2,6 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { urlFor } from "@/sanity/lib/image";
 
 export const ProductCard: React.FC<{
   imageUrl: string;
@@ -10,13 +11,13 @@ export const ProductCard: React.FC<{
 }> = ({ imageUrl, name, price }) => {
   return (
     <Card className="h-full">
-      <CardContent className="!p-0">
-        <div className="relative min-h-56 w-full">
+      <CardContent className="!p-0 !overflow-clip rounded-t-lg">
+        <div className="relative min-h-72 w-full overflow-hidden">
           <Image
-            src={imageUrl}
+            src={urlFor(imageUrl).width(2000).auto("format").url()}
             alt={name ?? "Product name"}
             fill
-            objectFit="contain"
+            objectFit="cover"
             objectPosition="center"
             className="object-cover w-full"
             quality={40}
@@ -25,8 +26,8 @@ export const ProductCard: React.FC<{
           />
         </div>
       </CardContent>
-      <CardFooter className="grid items-start place-items-start">
-        <span className="text-lg font-normal">{name ?? "Product name"}</span>
+      <CardFooter className="grid items-start place-items-start mt-4">
+        <span className="text-lg font-semibold">{name ?? "Product name"}</span>
         <span className="text-lg font-light">${price}</span>
       </CardFooter>
     </Card>
