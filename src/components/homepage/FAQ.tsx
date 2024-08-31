@@ -48,7 +48,19 @@ const content: FAQItem[] = [
   },
   {
     question: "CAN I PLACE AN ORDER OVER THE PHONE?",
-    answer: `Yes you can. You can call us +2348099111108 during business hours or send us a WhatsApp message +2348099111108 to place your order with us.`,
+    answer: (
+      <span>
+        Yes you can. You can call us +2348099111108 during business hours or
+        send us a WhatsApp message{" "}
+        <a
+          href="https://wa.me/+2348099111108"
+          className="text-blue-400 underline"
+        >
+          +2348099111108
+        </a>{" "}
+        to place your order with us.
+      </span>
+    ),
   },
   {
     question: "DO YOU SHIP INTERNATIONALLY?",
@@ -93,9 +105,9 @@ const FAQ = () => {
           </a>
         </h4>
         <div className="not-prose mt-4 flex flex-col gap-4 md:mt-8">
-          {content.map((item, index) => (
-            <Accordion key={index} type="single" collapsible>
-              <AccordionItem value={item.question}>
+          <Accordion type="single" collapsible className="w-full">
+            {content.map((item, index) => (
+              <AccordionItem key={index} value={item.question}>
                 <AccordionTrigger className="text-left">
                   {item.question}
                 </AccordionTrigger>
@@ -111,8 +123,8 @@ const FAQ = () => {
                   )}
                 </AccordionContent>
               </AccordionItem>
-            </Accordion>
-          ))}
+            ))}
+          </Accordion>
         </div>
       </Container>
     </Section>
