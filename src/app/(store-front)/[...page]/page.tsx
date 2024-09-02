@@ -19,6 +19,16 @@ import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Suspense, useEffect } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function CategoriesPage({
   params,
@@ -54,33 +64,107 @@ export default function CategoriesPage({
           </Section>
         </Main>
       );
+    } else if (sub === "kids") {
+      // Filter between categories and sub-catogory
+      return (
+        <Main>
+          <Section>
+            <Container>
+              <Dialog>
+                <DialogTrigger>
+                  <Button className="flex space-x-2" onClick={() => {}}>
+                    <Filter className="size-3" />
+                    <span>Filter</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <div className="flex w-full flex-col">
+                    <h1>Filters</h1>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </Container>
+            <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <Suspense
+                fallback={
+                  <>
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                  </>
+                }
+              >
+                <CategoryHandler filter={sub} />
+              </Suspense>
+            </Container>
+          </Section>
+        </Main>
+      );
+    } else {
+      // Return all categories
+      return (
+        <Main>
+          <Section>
+            <Container>
+              <Dialog>
+                <DialogTrigger>
+                  <Button className="flex space-x-2" onClick={() => {}}>
+                    <Filter className="size-3" />
+                    <span>Filter</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <div className="flex w-full flex-col">
+                    <h1>Filters</h1>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            </Container>
+            <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <Suspense
+                fallback={
+                  <>
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                    <Skeleton className="min-w-9 min-h-64" />
+                  </>
+                }
+              >
+                <CategoryHandler filter={sub} />
+              </Suspense>
+            </Container>
+            <Container>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious href="#" />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#" isActive>
+                      2
+                    </PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext href="#" />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </Container>
+          </Section>
+        </Main>
+      );
     }
-    return (
-      <Main>
-        <Section>
-          <Container>
-            <div className="flex space-x-2">
-              <Filter className="size-5" />
-              <span>Filter</span>
-            </div>
-          </Container>
-          <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Suspense
-              fallback={
-                <>
-                  <Skeleton className="min-w-9 min-h-64" />
-                  <Skeleton className="min-w-9 min-h-64" />
-                  <Skeleton className="min-w-9 min-h-64" />
-                  <Skeleton className="min-w-9 min-h-64" />
-                </>
-              }
-            >
-              <CategoryHandler filter={sub} />
-            </Suspense>
-          </Container>
-        </Section>
-      </Main>
-    );
   } else if (page.includes("checkout")) {
     return (
       <Main>
