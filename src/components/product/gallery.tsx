@@ -26,10 +26,7 @@ export const ProductGallery: React.FC<{
   return (
     <Container className="grid gap-3">
       <MainImage
-        url={
-          urlFor(urls[imgSlide]).quality(65).auto("format").url() ??
-          "http://localhost:3000/logo.svg"
-        }
+        url={urls[imgSlide] ?? "http://localhost:3000/logo.svg"}
         alt="Main product image"
         ratio={3 / 4}
         className="rounded-lg"
@@ -92,7 +89,7 @@ const MainImage: React.FC<{
         className={cn("", className)}
         priority={true}
         loading="eager"
-        quality={65}
+        // quality={65}
         style={{
           aspectRatio: ratio,
           width: "100%",

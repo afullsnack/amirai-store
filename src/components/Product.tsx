@@ -21,13 +21,13 @@ import {
 import { client } from "@/sanity/lib/client";
 import { useCart } from "./cart/cart-context";
 import { RenderRelatedProducts } from "./RelatedProducts";
-import { PortableText } from "next-sanity";
+import { groq, PortableText } from "next-sanity";
 import { ProductGallery } from "./product/gallery";
 
 const getSingleProduct = async (slug: string) => {
   console.log(slug, ":::Slug");
-  const item = await client.fetch(
-    `*[_type == "product" && slug.current match "${slug}"][0]{
+  const query = groq`
+    *[_type == "product" && slug.current match $slug][0]{
       _id,
       "urls": asset[].asset->url,
       "slug": slug.current,
@@ -37,8 +37,8 @@ const getSingleProduct = async (slug: string) => {
       sizes,
       "categories": categories[]->{name, slug}
     }
-    `,
-  );
+  `;
+  const item = await client.fetch(query, { slug });
 
   console.log(item, ":::single item");
   return item;
