@@ -6,6 +6,8 @@ import SiteFooter from "@/components/Footer";
 import CTA from "@/components/forms/subscribe";
 import FAQ from "@/components/homepage/FAQ";
 import BestSellers from "@/components/homepage/BestSellers";
+import { client } from "@/sanity/lib/client";
+import { groq } from "next-sanity";
 
 type FeatureText = {
   icon: JSX.Element;
@@ -27,7 +29,22 @@ const featureText: FeatureText[] = [
   },
 ];
 
+const getFAQ = async () => {
+  const query = groq`
+    *[_type == "content"][0] {
+      faq
+    }
+  `;
+  const faqs = await client.fetch(query);
+
+  console.log(faqs, ":::landing faqs");
+  return faqs;
+};
+
+// TODO: get best sellers and render on the bestsellers
 export default async function HomePage() {
+  const { faq: faqs } = await getFAQ();
+
   return (
     <Main>
       <Hero />
@@ -45,7 +62,7 @@ export default async function HomePage() {
         </Section>*/}
       <BestSellers />
       <CTA />
-      <FAQ />
+      <FAQ faqs={faqs} />
       <SiteFooter />
     </Main>
   );

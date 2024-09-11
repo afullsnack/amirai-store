@@ -8,6 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { PortableText } from "next-sanity";
+import { Children } from "react";
 
 type FAQItem = {
   question: string;
@@ -87,7 +89,7 @@ const content: FAQItem[] = [
   },
 ];
 
-const FAQ = () => {
+const FAQ = ({ faqs }: { faqs: any[] }) => {
   return (
     <Section>
       <Container>
@@ -106,21 +108,130 @@ const FAQ = () => {
         </h4>
         <div className="not-prose mt-4 flex flex-col gap-4 md:mt-8">
           <Accordion type="single" collapsible className="w-full">
-            {content.map((item, index) => (
-              <AccordionItem key={index} value={item.question}>
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={faq._key}>
                 <AccordionTrigger className="text-left">
-                  {item.question}
+                  <PortableText
+                    value={faq?.question}
+                    listNestingMode="html"
+                    components={{
+                      list: {
+                        bullet: ({ children }) => (
+                          <ul className="mt-xl ml-auto list-disc pl-4">
+                            {children}
+                          </ul>
+                        ),
+                        number: ({ children }) => (
+                          <ol className="mt-lg">{children}</ol>
+                        ),
+
+                        // Ex. 2: rendering custom lists
+                        checkmarks: ({ children }) => (
+                          <ol className="m-auto text-lg">{children}</ol>
+                        ),
+                      },
+                      listItem: {
+                        // Ex. 1: customizing common list types
+                        bullet: ({ children }) => (
+                          <li
+                            className="list-disc"
+                            style={{ listStyleType: "disc" }}
+                          >
+                            {children}
+                          </li>
+                        ),
+
+                        // Ex. 2: rendering custom list items
+                        checkmarks: ({ children }) => <li>✅ {children}</li>,
+                      },
+                      block: {
+                        p: ({ children }) => (
+                          <p className="text-bold text-lg w-full">{children}</p>
+                        ),
+                        h1: ({ children }) => (
+                          <h1 className="text-2xl">{children}</h1>
+                        ),
+                      },
+                    }}
+                  />
                 </AccordionTrigger>
                 <AccordionContent className="text-base md:w-3/4">
-                  {item.answer}
-                  {item.link && (
+                  <PortableText
+                    value={faq?.answer}
+                    listNestingMode="html"
+                    components={{
+                      list: {
+                        bullet: ({ children }) => (
+                          <ul className="mt-xl ml-auto list-disc pl-4">
+                            {children}
+                          </ul>
+                        ),
+                        number: ({ children }) => (
+                          <ol className="mt-lg">{children}</ol>
+                        ),
+
+                        // Ex. 2: rendering custom lists
+                        checkmarks: ({ children }) => (
+                          <ol className="m-auto text-lg">{children}</ol>
+                        ),
+                      },
+                      listItem: {
+                        // Ex. 1: customizing common list types
+                        bullet: ({ children }) => (
+                          <li
+                            className="list-disc"
+                            style={{ listStyleType: "disc" }}
+                          >
+                            {children}
+                          </li>
+                        ),
+
+                        // Ex. 2: rendering custom list items
+                        checkmarks: ({ children }) => <li>✅ {children}</li>,
+                      },
+                      block: {
+                        p: ({ children }) => (
+                          <p className="text-bold text-lg w-full">{children}</p>
+                        ),
+                        h1: ({ children }) => (
+                          <h1 className="text-2xl">{children}</h1>
+                        ),
+                        a: ({ children }) => (
+                          <a className="text-blue-400 underline">{children}</a>
+                        ),
+                      },
+                      marks: {
+                        link: ({ value, children }) => {
+                          const target = (value?.href || "").startsWith("http")
+                            ? "_blank"
+                            : undefined;
+
+                          return (
+                            <a
+                              href={value?.href}
+                              target={target}
+                              rel={
+                                target === "_blank"
+                                  ? "noindex nofollow"
+                                  : undefined
+                              }
+                              className="text-blue-400 underline"
+                            >
+                              {children}
+                            </a>
+                          );
+                        },
+                      },
+                    }}
+                  />
+                  {/*item.link && (
                     <a
                       href={item.link}
                       className="mt-2 flex w-full items-center opacity-60 transition-all hover:opacity-100"
                     >
                       Learn more <ArrowUpRight className="ml-1" size="16" />
                     </a>
-                  )}
+                  )*/}
                 </AccordionContent>
               </AccordionItem>
             ))}
