@@ -1,12 +1,13 @@
 import { type SchemaTypeDefinition } from "sanity";
 
+// content schema to control landing page content
 export const Content: SchemaTypeDefinition = {
   name: "content",
   title: "Content",
   type: "document",
   fields: [
     {
-      name: "hero",
+      name: "hero-image",
       title: "Hero image",
       type: "image",
       description: "The image(s) for the hero section",
@@ -31,6 +32,37 @@ export const Content: SchemaTypeDefinition = {
       title: "Hero CTA URL",
       type: "url",
       validation: (rule) => rule.required().warning("Hero CTA URL is requried"),
+    },
+    {
+      name: "faq",
+      title: "FAQs",
+      description: "FAQ questions and answers on landing page",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "quesiton",
+              title: "Question",
+              type: "block",
+              description: "Question for the FAQ section",
+            },
+            {
+              name: "answer",
+              title: "Answer",
+              type: "block",
+              description: "Answer to FAQ question",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "policy",
+      title: "Policy page",
+      type: "block",
+      description: "The platform policy file and document",
     },
   ],
 };
