@@ -7,20 +7,20 @@ export const Content: SchemaTypeDefinition = {
   type: "document",
   fields: [
     {
-      name: "hero-image",
+      name: "heroImage",
       title: "Hero image",
       type: "image",
       description: "The image(s) for the hero section",
       validation: (rule) => rule.required().error("Hero image is required"),
     },
     {
-      name: "hero-text",
+      name: "heroText",
       title: "Hero text",
       type: "text",
       description: "The text for the hero section",
     },
     {
-      name: "hero-cta-text",
+      name: "heroCTAText",
       title: "Hero CTA Text",
       type: "text",
       description: "Hero CTA text",
@@ -28,7 +28,7 @@ export const Content: SchemaTypeDefinition = {
         rule.required().warning("Hero CTA text is required"),
     },
     {
-      name: "hero-cta-url",
+      name: "heroCTAUrl",
       title: "Hero CTA URL",
       type: "url",
       validation: (rule) => rule.required().warning("Hero CTA URL is requried"),
@@ -43,15 +43,17 @@ export const Content: SchemaTypeDefinition = {
           type: "object",
           fields: [
             {
-              name: "quesiton",
+              name: "question",
               title: "Question",
-              type: "block",
+              type: "array",
+              of: [{ type: "block" }],
               description: "Question for the FAQ section",
             },
             {
               name: "answer",
               title: "Answer",
-              type: "block",
+              type: "array",
+              of: [{ type: "block" }],
               description: "Answer to FAQ question",
             },
           ],
@@ -61,7 +63,8 @@ export const Content: SchemaTypeDefinition = {
     {
       name: "policy",
       title: "Policy page",
-      type: "block",
+      type: "array",
+      of: [{ type: "block" }],
       description: "The platform policy file and document",
     },
   ],

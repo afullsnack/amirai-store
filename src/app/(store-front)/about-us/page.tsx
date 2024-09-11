@@ -1,5 +1,9 @@
 import { Main, Section, Container } from "@/components/craft";
 import Link from "next/link";
+/**
+* TODO: make this page dynamic and changeable with blocks
+* instead static file
+*/
 
 export default function AboutUs() {
   return (
