@@ -37,7 +37,6 @@ const getFAQ = async () => {
   `;
   const faqs = await client.fetch(query);
 
-  console.log(faqs, ":::landing faqs");
   return faqs;
 };
 

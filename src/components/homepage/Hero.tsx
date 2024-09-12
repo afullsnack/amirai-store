@@ -17,7 +17,6 @@ const getHeroContent = async () => {
   `;
   const heroContent = await client.fetch(query);
 
-  console.log(heroContent, ":::hero content");
   return heroContent;
 };
 
