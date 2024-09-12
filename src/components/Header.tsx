@@ -322,7 +322,7 @@ export default function Header() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { isNavMenu: boolean }
+  React.ComponentPropsWithoutRef<"a"> & { isNavMenu?: boolean }
 >(({ className, title, children, isNavMenu = true, ...props }, ref) => {
   return (
     <li>
