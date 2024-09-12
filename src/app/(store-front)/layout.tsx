@@ -36,14 +36,14 @@ export default function RootLayout({
   return (
     <Layout>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Section className="!p-0 w-full h-4 py-2 items-start">
+        {/*<Section className="!p-0 w-full h-4 py-2 items-start">
           <Container>
             <span className="flex items-center justify-center">
               <Bus className="h-6 w-6" />
               Express delivery worldwide
             </span>
           </Container>
-        </Section>
+        </Section>*/}
         <Suspense>
           <CartWrapper>
             <Header />

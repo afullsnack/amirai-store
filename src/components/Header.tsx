@@ -8,6 +8,7 @@ import {
   SearchX,
   Minus,
   Plus,
+  ChevronsUpDownIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,6 +33,21 @@ import { useCart } from "./cart/cart-context";
 import { Badge } from "./ui/badge";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import React from "react";
+import { cn } from "@/lib/utils";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export default function Header() {
   const { cart, updateCartItem } = useCart();
@@ -43,18 +59,41 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link
-          href="/category/women"
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          Women
-        </Link>
-        <Link
-          href="/category/kids"
-          className="text-muted-foreground transition-colors hover:text-foreground min-w-fit"
-        >
-          Kids
-        </Link>
+        <NavigationMenu>
+          <NavigationMenuList>
+            <Link
+              href="/category/women"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Women
+            </Link>
+
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>
+                <Link
+                  href="/category/kids"
+                  className="text-muted-foreground transition-colors hover:text-foreground min-w-fit"
+                >
+                  Kids
+                </Link>
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-3 p-6 md:w-[230px] lg:w-[300px]">
+                  <ListItem href="/category/kids/dresses">Dresses</ListItem>
+                  <ListItem href="/category/kids/best-sellers">
+                    Bestsellers
+                  </ListItem>
+                  <ListItem href="/category/kids/1years-6years">
+                    1year-6years
+                  </ListItem>
+                  <ListItem href="/category/kids/7years-12years">
+                    7year-12years
+                  </ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </nav>
 
       <Sheet open={mobileSheetOpen} onOpenChange={setMobileSheetOpen}>
@@ -65,7 +104,7 @@ export default function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
+          <nav className="grid gap-4 w-full">
             <Link
               href=""
               className="flex items-center gap-2 text-lg font-semibold"
@@ -81,6 +120,7 @@ export default function Header() {
               </span>
               <span className="sr-only">Amirai</span>
             </Link>
+
             <Link
               href="/category/women"
               className="text-muted-foreground hover:text-foreground"
@@ -88,13 +128,52 @@ export default function Header() {
             >
               Women
             </Link>
-            <Link
-              href="/category/kids"
-              className="text-muted-foreground hover:text-foreground min-w-fit"
-              onClick={() => setMobileSheetOpen(false)}
-            >
-              Kids
-            </Link>
+            <Collapsible className="!w-full">
+              <div className="flex w-full items-center justify-between">
+                <Link
+                  href="/category/kids"
+                  className="text-muted-foreground hover:text-foreground"
+                  onClick={() => setMobileSheetOpen(false)}
+                >
+                  Kids
+                </Link>
+
+                <CollapsibleTrigger asChild>
+                  <Button
+                    size={"sm"}
+                    variant={"ghost"}
+                    className="w-9 p-0 ml-auto"
+                  >
+                    <ChevronsUpDownIcon className="size-4" />
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+              <CollapsibleContent className="!w-full">
+                <ul className="grid gap-3 p-6 md:w-[230px] lg:w-[300px] w-full">
+                  <ListItem isNavMenu={false} href="/category/kids/dresses">
+                    Dresses
+                  </ListItem>
+                  <ListItem
+                    isNavMenu={false}
+                    href="/category/kids/best-sellers"
+                  >
+                    Bestsellers
+                  </ListItem>
+                  <ListItem
+                    isNavMenu={false}
+                    href="/category/kids/1years-6years"
+                  >
+                    1year-6years
+                  </ListItem>
+                  <ListItem
+                    isNavMenu={false}
+                    href="/category/kids/7years-12years"
+                  >
+                    7year-12years
+                  </ListItem>
+                </ul>
+              </CollapsibleContent>
+            </Collapsible>
           </nav>
         </SheetContent>
       </Sheet>
@@ -240,3 +319,46 @@ export default function Header() {
     </header>
   );
 }
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a"> & { isNavMenu: boolean }
+>(({ className, title, children, isNavMenu = true, ...props }, ref) => {
+  return (
+    <li>
+      {isNavMenu && (
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className,
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+              {children}
+            </p>
+          </a>
+        </NavigationMenuLink>
+      )}
+      {!isNavMenu && (
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className,
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      )}
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";
