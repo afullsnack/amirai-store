@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Package2,
   Menu,
@@ -48,6 +49,16 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Container } from "../../components/craft";
 
 export default function Header() {
   const { cart, updateCartItem } = useCart();
@@ -55,6 +66,9 @@ export default function Header() {
   const [cartSheetOpen, setCartSheetOpen] = useState<boolean>(false);
   const { push } = useRouter();
   const pathname = usePathname();
+
+  // Settings dialog control
+  const [openSettingsDialog, setOpenSettings] = useState<boolean>(false);
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center !justify-between gap-4 border-b bg-background px-4 md:px-6">
@@ -217,7 +231,10 @@ export default function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpenSettings(true)}>
+              Settings
+            </DropdownMenuItem>
+
             {/*
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -316,6 +333,7 @@ export default function Header() {
           </Sheet>
         )}
       </div>
+      <SettingsDialog open={openSettingsDialog} setOpen={setOpenSettings} />
     </header>
   );
 }
@@ -362,3 +380,33 @@ const ListItem = React.forwardRef<
   );
 });
 ListItem.displayName = "ListItem";
+
+const SettingsDialog = ({
+  open,
+  setOpen,
+}: {
+  children: React.ReactNode;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}) => {
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Change settings</DialogTitle>
+        </DialogHeader>
+        <Container>
+          <h1>Settings content</h1>
+        </Container>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant={"ghost"} size={"lg"}>
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button size={"lg"}>Update</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
