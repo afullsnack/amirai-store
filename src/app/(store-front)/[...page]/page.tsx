@@ -19,7 +19,15 @@ import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Suspense, useEffect } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Pagination,
   PaginationContent,
@@ -70,19 +78,7 @@ export default function CategoriesPage({
         <Main>
           <Section>
             <Container>
-              <Dialog>
-                <DialogTrigger>
-                  <Button className="flex space-x-2" onClick={() => {}}>
-                    <Filter className="size-3" />
-                    <span>Filter</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <div className="flex w-full flex-col">
-                    <h1>Filters</h1>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <FilterDialog />
             </Container>
             <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               <Suspense
@@ -256,3 +252,32 @@ export default function CategoriesPage({
     return notFound();
   }
 }
+
+const FilterDialog = () => {
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <Button className="flex space-x-2" onClick={() => {}}>
+          <Filter className="size-3" />
+          <span>Filter</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Filter products</DialogTitle>
+        </DialogHeader>
+        <Container className="grid space-y-3 w-full">
+          <h1>Filter by sizes:</h1>
+        </Container>
+        <DialogFooter className="flex w-full gap-2">
+          <DialogClose asChild>
+            <Button variant={"ghost"} size={"lg"}>
+              Cancel
+            </Button>
+          </DialogClose>
+          <Button>Apply</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
