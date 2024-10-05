@@ -47,7 +47,7 @@ export default function CategoriesPage({
   const router = useRouter();
   const [page, sub] = params?.page;
 
-  console.log(page, sub, ":::sub lists", cart);
+  console.log(page, sub, ":::sub lists");
 
   useEffect(() => {
     console.log("INside aftermount");
@@ -56,7 +56,7 @@ export default function CategoriesPage({
       router.replace("/category");
     }
   }, []);
-
+  // NOTE: categories page handlers
   if (page.includes("category")) {
     if (sub === "women") {
       return (
@@ -103,19 +103,7 @@ export default function CategoriesPage({
         <Main>
           <Section>
             <Container>
-              <Dialog>
-                <DialogTrigger>
-                  <Button className="flex space-x-2" onClick={() => {}}>
-                    <Filter className="size-3" />
-                    <span>Filter</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <div className="flex w-full flex-col">
-                    <h1>Filters</h1>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <FilterDialog />
             </Container>
             <Container className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               <Suspense
@@ -131,6 +119,7 @@ export default function CategoriesPage({
                 <CategoryHandler filter={sub} />
               </Suspense>
             </Container>
+            {/* Pagination container */}
             <Container>
               <Pagination>
                 <PaginationContent>
@@ -161,7 +150,10 @@ export default function CategoriesPage({
         </Main>
       );
     }
-  } else if (page.includes("checkout")) {
+  }
+
+  // NOTE: checkout page handlers
+  if (page.includes("checkout")) {
     return (
       <Main>
         <Section className="">
@@ -248,15 +240,16 @@ export default function CategoriesPage({
         </Section>
       </Main>
     );
-  } else {
-    return notFound();
   }
+  return notFound();
 }
 
+// TODO: make a reques through the sanity CMS query language groq
+// to returned products based on the filter parameters passed in
 const FilterDialog = () => {
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="flex space-x-2" onClick={() => {}}>
           <Filter className="size-3" />
           <span>Filter</span>
