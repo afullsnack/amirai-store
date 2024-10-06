@@ -33,7 +33,7 @@ import Image from "next/image";
 import { useCart } from "./cart/cart-context";
 import { Badge } from "./ui/badge";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -59,6 +59,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Container } from "../../components/craft";
+import { Label } from "@/components/ui/label";
+import { Settings } from "./header/Settings";
 
 export default function Header() {
   const { cart, updateCartItem } = useCart();
@@ -385,18 +387,55 @@ const SettingsDialog = ({
   open,
   setOpen,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   open: boolean;
   setOpen: (open: boolean) => void;
 }) => {
+  // TODO: Auto detect country IP on load or select country manually
+  // TODO: store selected country in localStorage as configuration
+  const [country, setCountry] = useState<string>();
+
+  // TODO: Get default stored data from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const config = localStorage.getItem("@amirai/config");
+      if (config) {
+        const parsed = JSON.parse(config);
+        setCountry(parsed?.country);
+      }
+    }
+  }, []);
+
+  // TODO: Update the localStorage on change
+  const updateCountry = useCallback(() => {
+    if (country) {
+      if (typeof window !== "undefined") {
+        const config = localStorage.getItem("@amirai/config");
+        if (config) {
+          const parsed = JSON.parse(config);
+          parsed["country"] = country;
+          localStorage.setItem("@amirai/config", JSON.stringify(parsed));
+        } else {
+          const config = {
+            country,
+          };
+
+          localStorage.setItem("@amirai/config", JSON.stringify(config));
+        }
+      }
+    }
+  }, [country]);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change settings</DialogTitle>
         </DialogHeader>
-        <Container>
-          <h1>Settings content</h1>
+        <Container className="grid items-start gap-3 justify-start mx-0 !p-0">
+          {/*<Label>Country</Label>*/}
+          <Suspense fallback={"Loading countries..."}>
+            <Settings country={country} setCountry={setCountry} />
+          </Suspense>
         </Container>
         <DialogFooter>
           <DialogClose asChild>
@@ -404,7 +443,10 @@ const SettingsDialog = ({
               Cancel
             </Button>
           </DialogClose>
-          <Button size={"lg"}>Update</Button>
+          {/* TODO: Update button sets default to localStorage */}
+          <Button size={"lg"} onClick={updateCountry}>
+            Update
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
