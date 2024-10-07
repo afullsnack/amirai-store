@@ -53,8 +53,34 @@ export const Product: SchemaTypeDefinition = {
       name: "sizes",
       title: "Sizes",
       type: "array",
-      of: [{ type: "string" }],
-      description: "the different sizes for the dress",
+      description: "The different sizes for the dress",
+      // of: [{ type: "string" }],
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "s",
+              title: "Size",
+              type: "reference",
+              to: { type: "size" },
+              description: "The actual size of the product",
+            },
+            {
+              name: "count",
+              title: "Count",
+              type: "number",
+              description: "The number of clothes for the size",
+            },
+            // {
+            //   name: "weight",
+            //   title: "Weight",
+            //   type: "number",
+            //   description: "The weight of the clothes size",
+            // },
+          ],
+        },
+      ],
       options: { layout: "tags" },
       // validation: (rule) => rule.required().min(1),
     },

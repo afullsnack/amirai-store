@@ -34,13 +34,19 @@ const getSingleProduct = async (slug: string) => {
       name,
       price,
       description,
-      sizes,
+      "sizes": sizes[]{
+        count,
+        "size": size->{
+          name,
+          "slug": slug.current
+        }
+      },
       "categories": categories[]->{name, slug}
     }
   `;
   const item = await client.fetch(query, { slug });
 
-  console.log(item, ":::single item");
+  console.log(item?.sizes, ":::item sizes");
   return item;
 };
 
@@ -103,7 +109,12 @@ export const RenderProduct: React.FC<{ slug: string }> = async ({ slug }) => {
             <AccordionTrigger>Additional information</AccordionTrigger>
             <AccordionContent>
               <ul>
-                <li>Sizes: {item?.sizes?.join(", ")}</li>
+                <li>
+                  Sizes:{" "}
+                  {item?.sizes
+                    ?.map((value: any) => value?.size?.name)
+                    .join(", ")}
+                </li>
               </ul>
             </AccordionContent>
           </AccordionItem>
@@ -169,7 +180,13 @@ const ProductControls: React.FC<{ [field: string]: any }> = ({
         <small>Price:</small> <br />${price ?? "300"}
       </h3>
       <SizeForm
-        sizes={sizes ?? ["small", "medium", "large"]}
+        sizes={
+          sizes?.map((value: any) => value?.size?.name) ?? [
+            "small",
+            "medium",
+            "large",
+          ]
+        }
         defaultSelect={sizes[0] ?? "small"}
         price={price}
         description={description}
